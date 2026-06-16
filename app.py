@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from database.db import SessionLocal, Document
+from db import SessionLocal, Document
 import json
 
 from document_reader.pdf_reader import read_pdf
