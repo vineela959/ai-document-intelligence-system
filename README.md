@@ -6,6 +6,16 @@ Upload PDF or DOCX documents and let AI extract meaningful insights including do
 
 ---
 
+## 🌐 Live Demo
+
+Frontend:
+https://vineela959.github.io/ai-document-intelligence-system/
+
+Backend API:
+https://ai-document-intelligence-system-255u.onrender.com/docs
+
+---
+
 ## ✨ Features
 
 - 📄 Upload PDF and DOCX files
@@ -16,6 +26,7 @@ Upload PDF or DOCX documents and let AI extract meaningful insights including do
 - 💾 Store analyzed documents using SQLite database
 - ⚡ FastAPI REST API backend
 - 🌐 Simple frontend interface
+- ☁️ Live deployment on Render
 
 ---
 
@@ -66,6 +77,10 @@ User Uploads Document
 - CSS
 - JavaScript
 
+### Deployment
+- GitHub Pages (Frontend)
+- Render (Backend)
+
 ---
 
 ## 📂 Project Structure
@@ -84,6 +99,17 @@ AI-Document-Intelligence-System/
 ├── frontend/
 │   └── index.html
 ```
+
+---
+
+## ⚙️ How It Works
+
+1. User uploads a PDF/DOCX file
+2. Backend extracts text from the document
+3. Extracted text is sent to Groq LLaMA model
+4. AI analyzes the content
+5. System returns structured JSON response
+6. Analysis is stored in database
 
 ---
 
@@ -180,10 +206,10 @@ Returns previously analyzed documents stored in database.
 ## 🚀 Future Improvements
 
 - User authentication
-- Cloud deployment
-- Document dashboard
+- Cloud storage integration
+- Dashboard UI
 - RAG-based document search
-- Multiple AI model support
+- Multi-AI model support
 - Advanced analytics
 
 ---
@@ -192,4 +218,4 @@ Returns previously analyzed documents stored in database.
 
 Python + FastAPI + Groq LLaMA 3.1
 
-A GenAI automation project demonstrating document processing, AI integration, and backend development.
+A GenAI automation project demonstrating document processing, AI integration, and full-stack development.
