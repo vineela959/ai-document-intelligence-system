@@ -6,7 +6,7 @@ import json
 from pdf_reader import read_pdf
 from docx_reader import read_docx
 
-from ai_engine.analyzer import analyze_document
+from analyzer import analyze_document
 
 
 app = FastAPI()
