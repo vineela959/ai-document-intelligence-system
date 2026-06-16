@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Document Intelligence</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            margin: 40px;
+        }
+
+        .box {
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            white-space: pre-wrap;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+<h1>AI Document Intelligence</h1>
+
+
+<input type="file" id="fileInput">
+
+
+<br>
+
+
+<button onclick="uploadFile()">
+Analyze Document
+</button>
+
+
+<h3>Result:</h3>
+
+
+<pre id="result">
+No analysis yet
+</pre>
+
+
+</div>
+
+
+
+<script>
+
+async function uploadFile(){
+
+    const file =
+    document.getElementById("fileInput").files[0];
+
+    if(!file){
+        alert("Please select a file");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    document.getElementById("result").innerText =
+    "Analyzing...";
+
+    try {
+
+        const response =
+        await fetch("http://127.0.0.1:8000/analyze", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        document.getElementById("result").innerText =
+        JSON.stringify(data, null, 2);
+
+    } catch(err) {
+
+        document.getElementById("result").innerText =
+        "Error: " + err.message;
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
