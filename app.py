@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from db import SessionLocal, Document
 import json
 
-from document_reader.pdf_reader import read_pdf
-from document_reader.docx_reader import read_docx
+from pdf_reader import read_pdf
+from docx_reader import read_docx
 
 from ai_engine.analyzer import analyze_document
 
