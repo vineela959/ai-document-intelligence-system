@@ -1,7 +1,9 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from db import SessionLocal, Document
+
 import json
+import os
 
 from pdf_reader import read_pdf
 from docx_reader import read_docx
@@ -10,6 +12,7 @@ from analyzer import analyze_document
 
 
 app = FastAPI()
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,55 +34,85 @@ def home():
 @app.post("/analyze")
 async def analyze(file: UploadFile):
 
-    path = "uploads/" + file.filename
+    try:
+
+        # create uploads folder on Render if missing
+        os.makedirs("uploads", exist_ok=True)
 
 
-    with open(path, "wb") as f:
-        f.write(await file.read())
+        path = "uploads/" + file.filename
 
 
-    if file.filename.endswith(".pdf"):
-
-        text = read_pdf(path)
-
-
-    elif file.filename.endswith(".docx"):
-
-        text = read_docx(path)
+        with open(path, "wb") as f:
+            f.write(await file.read())
 
 
-    else:
+        if file.filename.endswith(".pdf"):
+
+            text = read_pdf(path)
+
+
+        elif file.filename.endswith(".docx"):
+
+            text = read_docx(path)
+
+
+        else:
+
+            return {
+                "error": "Only PDF and DOCX allowed"
+            }
+
+
+        result = analyze_document(text)
+
+
+        db = SessionLocal()
+
+
+        document = Document(
+            filename=file.filename,
+            extracted_text=text,
+            analysis=json.dumps(result)
+        )
+
+
+        db.add(document)
+        db.commit()
+        db.close()
+
 
         return {
-            "error": "Only PDF and DOCX allowed"
+            "status": "success",
+            "analysis": result
         }
 
 
-    result = analyze_document(text)
-    db = SessionLocal()
+    except Exception as e:
 
-    document = Document(
-        filename=file.filename,
-        extracted_text=text,
-        analysis=json.dumps(result)
-    )
-
-    db.add(document)
-    db.commit()
-    db.close()
+        return {
+            "status": "failed",
+            "error": str(e)
+        }
 
 
-    return {
-        "status": "success",
-        "analysis": result
-    }
+
 @app.get("/documents")
 def get_documents():
 
-    db = SessionLocal()
+    try:
 
-    documents = db.query(Document).all()
+        db = SessionLocal()
 
-    db.close()
+        documents = db.query(Document).all()
 
-    return documents
+        db.close()
+
+        return documents
+
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
