@@ -84,7 +84,6 @@ AI-Document-Intelligence-System/
 ├── frontend/
 │   └── index.html
 │
-└── uploads/
 ```
 
 ---
